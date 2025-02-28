@@ -34,7 +34,8 @@ def macd(data: pd.DataFrame):
 def process(filePath: str) -> pd.DataFrame:
     data = pd.read_csv(filePath)
     data["Date"] = pd.to_datetime(data["Date"], dayfirst=True)
-    data["Price"] = data["Price"].str.replace(",", "").astype(float)
+    if data["Price"].dtype == "object":
+        data["Price"] = data["Price"].str.replace(",", "").astype(float)
     data = data[["Date", "Price"]]
 
     macd(data)
