@@ -4,20 +4,22 @@ import processData as pdt
 import matplotlib.pyplot as plt
 
 # Przetwarzanie danych
-data = pdt.process("data/jnj.csv")
-print(data)
+data = pdt.process("data/dji.csv")
+
 
 # Ustawienia globalne dla wykresów
 plt.rcParams.update({'font.size': 15})
+
 
 # Wykres cen zamknięcia
 plt.figure(figsize=(25, 10))
 plt.plot(data["Date"], data["Price"], color="black")
 plt.xlabel("Data zamknięcia", loc="right")
-plt.ylabel("Cena zamknęcia [USD]", loc="top")
-plt.title("Wykres ceny zamknięcia JNJ od 27-05-2022 do 27-02-2025")
+plt.ylabel("Cena zamknięcia [USD]", loc="top")
+plt.title("Wykres ceny zamknięcia DJI od 27-05-2022 do 27-02-2025")
 # plt.show()
-plt.savefig("charts/jnjPrice.png")
+plt.savefig("charts/djiPrice.png")
+
 
 # Wykres MACD i Signal, punkty sprzedaży i kupna
 plt.figure(figsize=(25, 10))
@@ -29,10 +31,11 @@ plt.scatter(data.loc[data["Verdict"] == "SELL", "Date"], data.loc[data["Verdict"
             color="red", label="Sprzedaż", marker="v", s=100, zorder=2)
 plt.xlabel("Data zamknięcia", loc="right")
 plt.ylabel("Wartość", loc="top")
-plt.title("Wykres MACD i Signal JNJ od 27-05-2022 do 27-02-2025")
+plt.title("Wykres MACD i Signal DJI od 27-05-2022 do 27-02-2025")
 plt.legend()
 # plt.show()
-plt.savefig("charts/jnjMACD.png")
+plt.savefig("charts/djiMACD.png")
+
 
 # Wykres kupna i sprzedaży dla wykresu ceny zamknięcia
 plt.figure(figsize=(25, 10))
@@ -43,10 +46,11 @@ plt.scatter(data.loc[data["Verdict"] == "SELL", "Date"], data.loc[data["Verdict"
             color="red", label="Sprzedaż", marker="v", s=100, zorder=2)
 plt.xlabel("Data zamknięcia", loc="right")
 plt.ylabel("Cena zamknięcia [USD]", loc="top")
-plt.title("Wykres ceny zamknięcia JNJ od 27-05-2022 do 27-02-2025 z punktami kupna i sprzedaży")
+plt.title("Wykres ceny zamknięcia DJI od 27-05-2022 do 27-02-2025 z punktami kupna i sprzedaży")
 plt.legend()
 # plt.show()
-plt.savefig("charts/jnjBuySellPrice.png")
+plt.savefig("charts/djiBuySellPrice.png")
+
 
 # Wykres prezentujący opóźnioną transakcję z zyskiem
 limitedData = data[(data["Date"] >= pd.to_datetime('2023-07-01')) & (data["Date"] <= pd.to_datetime('2023-08-06'))]
@@ -59,15 +63,15 @@ plt.scatter(limitedData.loc[limitedData["Verdict"] == "SELL", "Date"], limitedDa
 for i in range(len(limitedData)):
     if limitedData.iloc[i]["Verdict"] == "BUY":
         plt.annotate(str(limitedData.iloc[i]["Price"]), (limitedData.iloc[i]["Date"], limitedData.iloc[i]["Price"]-1))
-for i in range(len(limitedData)):
-    if limitedData.iloc[i]["Verdict"] == "SELL":
+    elif limitedData.iloc[i]["Verdict"] == "SELL":
         plt.annotate(str(limitedData.iloc[i]["Price"]), (limitedData.iloc[i]["Date"], limitedData.iloc[i]["Price"]+0.5))
 plt.xlabel("Data zamknięcia", loc="right")
 plt.ylabel("Cena zamknięcia [USD]", loc="top")
-plt.title("Przykład opóźnionej sprzedaży z zyskiem dla JNJ")
+plt.title("Przykład opóźnionej sprzedaży z zyskiem dla DJI")
 plt.legend()
 # plt.show()
-plt.savefig("charts/jnjProfitDelay.png")
+plt.savefig("charts/djiProfitDelay.png")
+
 
 # Wykres przedstawiający opóźnioną transakcję ze stratą
 limitedData = data[(data["Date"] >= pd.to_datetime('2024-04-02')) & (data["Date"] <= pd.to_datetime('2024-05-01'))]
@@ -84,7 +88,25 @@ for i in range(len(limitedData)):
         plt.annotate(str(limitedData.iloc[i]["Price"]), (limitedData.iloc[i]["Date"], limitedData.iloc[i]["Price"]+0.5))
 plt.xlabel("Data zamknięcia", loc="right")
 plt.ylabel("Cena zamknięcia [USD]", loc="top")
-plt.title("Przykład opóźnionej sprzedaży ze stratą dla JNJ")
+plt.title("Przykład opóźnionej sprzedaży ze stratą dla DJI")
 plt.legend()
 # plt.show()
-plt.savefig("charts/jnjLossDelay.png")
+plt.savefig("charts/djiLossDelay.png")
+
+
+# Symulacja inwestycji
+initialPortfolio, finalPortfolio = pdt.simulate(data, 0, 1000, 26+9, 1, 1)
+print("Portfel początkowy: " + str(round(initialPortfolio, 2)) + " $")
+print("Portfel końcowy: " + str(round(finalPortfolio, 2)) + " $")
+print("Zysk: " + str(round(finalPortfolio - initialPortfolio, 2)) + " $")
+print("Zysk procentowy :" + str(round((finalPortfolio - initialPortfolio) / initialPortfolio * 100, 2)) + " %")
+
+plt.figure(figsize=(25, 10))
+plt.plot(data["Date"], data["Portfolio"]/pow(10, 6), label="MACD", color="red")
+plt.plot(data["Date"], data["HoldPortfolio"]/pow(10, 6), label="Hold", color="blue")
+plt.xlabel("Data zamknięcia", loc="right")
+plt.ylabel("Wartość portfela [mln USD]", loc="top")
+plt.title("Symulacja inwestycji dla DJI")
+plt.legend()
+# plt.show()
+plt.savefig("charts/djiSimulation.png")
