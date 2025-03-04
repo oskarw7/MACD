@@ -42,20 +42,32 @@ def process(filePath: str) -> pd.DataFrame:
 
 
 def simulate(data: pd.DataFrame, money: float, stocks: float, offset: int,
-             sellFactor: float = 1, buyFactor: float = 1) -> [float, float]:
+             sellFactor: float = 1, buyFactor: float = 1) -> [float, float, int, int, int]:
     initialPortfolio = money + stocks * data.at[offset, "Price"]
     initialMoney = money
     initialStocks = stocks
+    buyPrice = None
+    totalTrades = 0
+    profitableTrades = 0
+    losingTrades = 0
     for i in range(offset, len(data)):
         if data.at[i, "Verdict"] == "SELL":
             toSell = stocks * sellFactor
             stocks -= toSell
             money += toSell * data.at[i, "Price"]
+            if buyPrice is not None:
+                totalTrades += 1
+                if data.at[i, "Price"] > buyPrice:
+                    profitableTrades += 1
+                else:
+                    losingTrades += 1
+                buyPrice = None
         elif data.at[i, "Verdict"] == "BUY":
             toBuy = money * buyFactor
             money -= toBuy
             stocks += toBuy / data.at[i, "Price"]
+            buyPrice = data.at[i, "Price"]
         data.at[i, "Portfolio"] = money + stocks * data.at[i, "Price"]
         data.at[i, "HoldPortfolio"] = initialMoney + initialStocks * data.at[i, "Price"]
     finalPortfolio = money + stocks * data.at[len(data) - 1, "Price"]
-    return initialPortfolio, finalPortfolio
+    return initialPortfolio, finalPortfolio, totalTrades, profitableTrades, losingTrades

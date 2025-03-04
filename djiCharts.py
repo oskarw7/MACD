@@ -17,7 +17,6 @@ plt.plot(data["Date"], data["Price"], color="black")
 plt.xlabel("Data zamknięcia", loc="right")
 plt.ylabel("Cena zamknięcia [USD]", loc="top")
 plt.title("Wykres ceny zamknięcia DJI od 27-05-2022 do 27-02-2025")
-# plt.show()
 plt.savefig("charts/djiPrice.png")
 
 
@@ -33,7 +32,6 @@ plt.xlabel("Data zamknięcia", loc="right")
 plt.ylabel("Wartość", loc="top")
 plt.title("Wykres MACD i Signal DJI od 27-05-2022 do 27-02-2025")
 plt.legend()
-# plt.show()
 plt.savefig("charts/djiMACD.png")
 
 
@@ -48,16 +46,29 @@ plt.xlabel("Data zamknięcia", loc="right")
 plt.ylabel("Cena zamknięcia [USD]", loc="top")
 plt.title("Wykres ceny zamknięcia DJI od 27-05-2022 do 27-02-2025 z punktami kupna i sprzedaży")
 plt.legend()
-# plt.show()
 plt.savefig("charts/djiBuySellPrice.png")
 
 
 # Symulacja inwestycji
-initialPortfolio, finalPortfolio = pdt.simulate(data, 0, 1000, 26+9, 1, 1)
+initialPortfolio, finalPortfolio, totalTrades, profitableTrades, losingTrades = \
+    (pdt.simulate(data, 0, 1000, 26 + 9))
 print("Portfel początkowy: " + str(round(initialPortfolio, 2)) + " $")
-print("Portfel końcowy: " + str(round(finalPortfolio, 2)) + " $")
-print("Zysk: " + str(round(finalPortfolio - initialPortfolio, 2)) + " $")
-print("Zysk procentowy :" + str(round((finalPortfolio - initialPortfolio) / initialPortfolio * 100, 2)) + " %")
+print("Portfel końcowy:    " + str(round(finalPortfolio, 2)) + " $")
+print("Zysk:               " + str(round(finalPortfolio - initialPortfolio, 2)) + " $")
+print("Zysk procentowy:    " + str(round((finalPortfolio - initialPortfolio) / initialPortfolio * 100, 2)) + " %")
+print("\nLiczba transakcji: " + str(totalTrades))
+print("Liczba zyskownych transakcji: " + str(profitableTrades))
+print("Liczba stratnych transakcji:  " + str(losingTrades))
+
+buy = 0
+sell = 0
+for i in range(len(data)):
+    if data.at[i, "Verdict"] == "SELL":
+        sell += 1
+    elif data.at[i, "Verdict"] == "BUY":
+        buy += 1
+print("\nLiczba sygnałów kupna: " + str(buy))
+print("Liczba sygnałów sprzedaży: " + str(sell))
 
 plt.figure(figsize=(25, 10))
 plt.plot(data["Date"], data["Portfolio"]/pow(10, 6), label="MACD", color="red")
