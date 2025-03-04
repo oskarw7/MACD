@@ -52,48 +52,6 @@ plt.legend()
 plt.savefig("charts/djiBuySellPrice.png")
 
 
-# Wykres prezentujący opóźnioną transakcję z zyskiem
-limitedData = data[(data["Date"] >= pd.to_datetime('2023-07-01')) & (data["Date"] <= pd.to_datetime('2023-08-06'))]
-plt.figure(figsize=(25, 10))
-plt.plot(limitedData["Date"], limitedData["Price"], color="black", zorder=1)
-plt.scatter(limitedData.loc[limitedData["Verdict"] == "BUY", "Date"], limitedData.loc[data["Verdict"] == "BUY", "Price"],
-            color="green", label="Kupno", marker="^", s=200, zorder=2)
-plt.scatter(limitedData.loc[limitedData["Verdict"] == "SELL", "Date"], limitedData.loc[data["Verdict"] == "SELL", "Price"],
-            color="red", label="Sprzedaż", marker="v", s=200, zorder=2)
-for i in range(len(limitedData)):
-    if limitedData.iloc[i]["Verdict"] == "BUY":
-        plt.annotate(str(limitedData.iloc[i]["Price"]), (limitedData.iloc[i]["Date"], limitedData.iloc[i]["Price"]-1))
-    elif limitedData.iloc[i]["Verdict"] == "SELL":
-        plt.annotate(str(limitedData.iloc[i]["Price"]), (limitedData.iloc[i]["Date"], limitedData.iloc[i]["Price"]+0.5))
-plt.xlabel("Data zamknięcia", loc="right")
-plt.ylabel("Cena zamknięcia [USD]", loc="top")
-plt.title("Przykład opóźnionej sprzedaży z zyskiem dla DJI")
-plt.legend()
-# plt.show()
-plt.savefig("charts/djiProfitDelay.png")
-
-
-# Wykres przedstawiający opóźnioną transakcję ze stratą
-limitedData = data[(data["Date"] >= pd.to_datetime('2024-04-02')) & (data["Date"] <= pd.to_datetime('2024-05-01'))]
-plt.figure(figsize=(25, 10))
-plt.plot(limitedData["Date"], limitedData["Price"], color="black", zorder=1)
-plt.scatter(limitedData.loc[limitedData["Verdict"] == "BUY", "Date"], limitedData.loc[data["Verdict"] == "BUY", "Price"],
-            color="green", label="Kupno", marker="^", s=200, zorder=2)
-plt.scatter(limitedData.loc[limitedData["Verdict"] == "SELL", "Date"], limitedData.loc[data["Verdict"] == "SELL", "Price"],
-            color="red", label="Sprzedaż", marker="v", s=200, zorder=2)
-for i in range(len(limitedData)):
-    if limitedData.iloc[i]["Verdict"] == "BUY":
-        plt.annotate(str(limitedData.iloc[i]["Price"]), (limitedData.iloc[i]["Date"], limitedData.iloc[i]["Price"]-0.7))
-    elif limitedData.iloc[i]["Verdict"] == "SELL":
-        plt.annotate(str(limitedData.iloc[i]["Price"]), (limitedData.iloc[i]["Date"], limitedData.iloc[i]["Price"]+0.5))
-plt.xlabel("Data zamknięcia", loc="right")
-plt.ylabel("Cena zamknięcia [USD]", loc="top")
-plt.title("Przykład opóźnionej sprzedaży ze stratą dla DJI")
-plt.legend()
-# plt.show()
-plt.savefig("charts/djiLossDelay.png")
-
-
 # Symulacja inwestycji
 initialPortfolio, finalPortfolio = pdt.simulate(data, 0, 1000, 26+9, 1, 1)
 print("Portfel początkowy: " + str(round(initialPortfolio, 2)) + " $")
