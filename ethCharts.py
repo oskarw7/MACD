@@ -54,21 +54,21 @@ limitedData = data[(data["Date"] >= pd.to_datetime('2023-12-01')) & (data["Date"
 plt.figure(figsize=(25, 10))
 plt.plot(limitedData["Date"], limitedData["Price"], color="black", zorder=1)
 plt.scatter(limitedData.loc[limitedData["Verdict"] == "BUY", "Date"],
-            limitedData.loc[data["Verdict"] == "BUY", "Price"],
+            limitedData.loc[limitedData["Verdict"] == "BUY", "Price"],
             color="green", label="Kupno", marker="^", s=200, zorder=2)
 plt.scatter(limitedData.loc[limitedData["Verdict"] == "SELL", "Date"],
-            limitedData.loc[data["Verdict"] == "SELL", "Price"],
+            limitedData.loc[limitedData["Verdict"] == "SELL", "Price"],
             color="red", label="Sprzedaż", marker="v", s=200, zorder=2)
-for i in range(len(limitedData)):
-    if limitedData.iloc[i]["Verdict"] == "BUY":
-        plt.annotate(str(limitedData.iloc[i]["Price"]),
-                     (limitedData.iloc[i]["Date"], limitedData.iloc[i]["Price"]),
+for i in limitedData.index:
+    if limitedData.at[i, "Verdict"] == "BUY":
+        plt.annotate(str(limitedData.at[i, "Price"]),
+                     (limitedData.at[i, "Date"], limitedData.at[i, "Price"]),
                      textcoords="offset points", xytext=(20, -25), ha="center", fontsize=12,
                      bbox=dict(boxstyle="round,pad=0.15", edgecolor="black", facecolor="white"))
 
-    elif limitedData.iloc[i]["Verdict"] == "SELL":
-        plt.annotate(str(limitedData.iloc[i]["Price"]),
-                     (limitedData.iloc[i]["Date"], limitedData.iloc[i]["Price"]),
+    elif limitedData.at[i, "Verdict"] == "SELL":
+        plt.annotate(str(limitedData.at[i, "Price"]),
+                     (limitedData.at[i, "Date"], limitedData.at[i, "Price"]),
                      textcoords="offset points", xytext=(20, -25), ha="center", fontsize=12,
                      bbox=dict(boxstyle="round,pad=0.15", edgecolor="black", facecolor="white"))
 plt.xlabel("Data zamknięcia", loc="right")
@@ -84,27 +84,27 @@ limitedData = data[(data["Date"] >= pd.to_datetime('2023-11-8')) & (data["Date"]
 plt.figure(figsize=(25, 10))
 plt.plot(limitedData["Date"], limitedData["Price"], color="black", zorder=1)
 plt.scatter(limitedData.loc[limitedData["Verdict"] == "BUY", "Date"],
-            limitedData.loc[data["Verdict"] == "BUY", "Price"],
+            limitedData.loc[limitedData["Verdict"] == "BUY", "Price"],
             color="green", label="Kupno", marker="^", s=200, zorder=2)
 plt.scatter(limitedData.loc[limitedData["Verdict"] == "SELL", "Date"],
-            limitedData.loc[data["Verdict"] == "SELL", "Price"],
+            limitedData.loc[limitedData["Verdict"] == "SELL", "Price"],
             color="red", label="Sprzedaż", marker="v", s=200, zorder=2)
 plt.scatter(transactionData.loc[transactionData["Verdict"] == "BUY", "Date"],
-            transactionData.loc[data["Verdict"] == "BUY", "Price"],
+            transactionData.loc[transactionData["Verdict"] == "BUY", "Price"],
             color="green", label="Wejście transakcji", marker="^", s=300, edgecolors='red', linewidths=3, zorder=3)
 plt.scatter(transactionData.loc[transactionData["Verdict"] == "SELL", "Date"],
-            transactionData.loc[data["Verdict"] == "SELL", "Price"],
+            transactionData.loc[transactionData["Verdict"] == "SELL", "Price"],
             color="red", label="Wyjście transakcji", marker="v", s=200, edgecolors='green', linewidths=3, zorder=3)
-for i in range(len(transactionData)):
-    if transactionData.iloc[i]["Verdict"] == "BUY":
-        plt.annotate(str(transactionData.iloc[i]["Price"]),
-                     (transactionData.iloc[i]["Date"], transactionData.iloc[i]["Price"]),
+for i in transactionData.index:
+    if transactionData.at[i, "Verdict"] == "BUY":
+        plt.annotate(str(transactionData.at[i, "Price"]),
+                     (transactionData.at[i, "Date"], transactionData.at[i, "Price"]),
                      textcoords="offset points", xytext=(20, -25), ha="center", fontsize=12,
                      bbox=dict(boxstyle="round,pad=0.15", edgecolor="black", facecolor="white"))
 
-    elif transactionData.iloc[i]["Verdict"] == "SELL":
-        plt.annotate(str(transactionData.iloc[i]["Price"]),
-                     (transactionData.iloc[i]["Date"], transactionData.iloc[i]["Price"]),
+    elif transactionData.at[i, "Verdict"] == "SELL":
+        plt.annotate(str(transactionData.at[i, "Price"]),
+                     (transactionData.at[i, "Date"], transactionData.at[i, "Price"]),
                      textcoords="offset points", xytext=(20, -25), ha="center", fontsize=12,
                      bbox=dict(boxstyle="round,pad=0.15", edgecolor="black", facecolor="white"))
 plt.xlabel("Data zamknięcia", loc="right")
@@ -119,21 +119,21 @@ limitedData = data[(data["Date"] >= pd.to_datetime('2025-02-08')) & (data["Date"
 plt.figure(figsize=(25, 10))
 plt.plot(limitedData["Date"], limitedData["Price"], color="black", zorder=1)
 plt.scatter(limitedData.loc[limitedData["Verdict"] == "BUY", "Date"],
-            limitedData.loc[data["Verdict"] == "BUY", "Price"],
+            limitedData.loc[limitedData["Verdict"] == "BUY", "Price"],
             color="green", label="Kupno", marker="^", s=200, zorder=2)
 plt.scatter(limitedData.loc[limitedData["Verdict"] == "SELL", "Date"],
-            limitedData.loc[data["Verdict"] == "SELL", "Price"],
+            limitedData.loc[limitedData["Verdict"] == "SELL", "Price"],
             color="red", label="Sprzedaż", marker="v", s=200, zorder=2)
-for i in range(len(limitedData)):
-    if limitedData.iloc[i]["Verdict"] == "BUY":
-        plt.annotate(str(limitedData.iloc[i]["Price"]),
-                     (limitedData.iloc[i]["Date"], limitedData.iloc[i]["Price"]),
+for i in limitedData.index:
+    if limitedData.at[i, "Verdict"] == "BUY":
+        plt.annotate(str(limitedData.at[i, "Price"]),
+                     (limitedData.at[i, "Date"], limitedData.at[i, "Price"]),
                      textcoords="offset points", xytext=(20, -25), ha="center", fontsize=12,
                      bbox=dict(boxstyle="round,pad=0.15", edgecolor="black", facecolor="white"))
 
-    elif limitedData.iloc[i]["Verdict"] == "SELL":
-        plt.annotate(str(limitedData.iloc[i]["Price"]),
-                     (limitedData.iloc[i]["Date"], limitedData.iloc[i]["Price"]),
+    elif limitedData.at[i, "Verdict"] == "SELL":
+        plt.annotate(str(limitedData.at[i, "Price"]),
+                     (limitedData.at[i, "Date"], limitedData.at[i, "Price"]),
                      textcoords="offset points", xytext=(20, -25), ha="center", fontsize=12,
                      bbox=dict(boxstyle="round,pad=0.15", edgecolor="black", facecolor="white"))
 plt.xlabel("Data zamknięcia", loc="right")
@@ -149,27 +149,27 @@ limitedData = data[(data["Date"] >= pd.to_datetime('2025-01-20')) & (data["Date"
 plt.figure(figsize=(25, 10))
 plt.plot(limitedData["Date"], limitedData["Price"], color="black", zorder=1)
 plt.scatter(limitedData.loc[limitedData["Verdict"] == "BUY", "Date"],
-            limitedData.loc[data["Verdict"] == "BUY", "Price"],
+            limitedData.loc[limitedData["Verdict"] == "BUY", "Price"],
             color="green", label="Kupno", marker="^", s=200, zorder=2)
 plt.scatter(limitedData.loc[limitedData["Verdict"] == "SELL", "Date"],
-            limitedData.loc[data["Verdict"] == "SELL", "Price"],
+            limitedData.loc[limitedData["Verdict"] == "SELL", "Price"],
             color="red", label="Sprzedaż", marker="v", s=200, zorder=2)
 plt.scatter(transactionData.loc[transactionData["Verdict"] == "BUY", "Date"],
-            transactionData.loc[data["Verdict"] == "BUY", "Price"],
+            transactionData.loc[transactionData["Verdict"] == "BUY", "Price"],
             color="green", label="Wejście transakcji", marker="^", s=300, edgecolors='red', linewidths=3, zorder=3)
 plt.scatter(transactionData.loc[transactionData["Verdict"] == "SELL", "Date"],
-            transactionData.loc[data["Verdict"] == "SELL", "Price"],
+            transactionData.loc[transactionData["Verdict"] == "SELL", "Price"],
             color="red", label="Wyjście transakcji", marker="v", s=200, edgecolors='green', linewidths=3, zorder=3)
-for i in range(len(transactionData)):
-    if transactionData.iloc[i]["Verdict"] == "BUY":
-        plt.annotate(str(transactionData.iloc[i]["Price"]),
-                     (transactionData.iloc[i]["Date"], transactionData.iloc[i]["Price"]),
+for i in transactionData.index:
+    if transactionData.at[i, "Verdict"] == "BUY":
+        plt.annotate(str(transactionData.at[i, "Price"]),
+                     (transactionData.at[i, "Date"], transactionData.at[i, "Price"]),
                      textcoords="offset points", xytext=(20, -25), ha="center", fontsize=12,
                      bbox=dict(boxstyle="round,pad=0.15", edgecolor="black", facecolor="white"))
 
-    elif transactionData.iloc[i]["Verdict"] == "SELL":
-        plt.annotate(str(transactionData.iloc[i]["Price"]),
-                     (transactionData.iloc[i]["Date"], transactionData.iloc[i]["Price"]),
+    elif transactionData.at[i, "Verdict"] == "SELL":
+        plt.annotate(str(transactionData.at[i, "Price"]),
+                     (transactionData.at[i, "Date"], transactionData.at[i, "Price"]),
                      textcoords="offset points", xytext=(20, -25), ha="center", fontsize=12,
                      bbox=dict(boxstyle="round,pad=0.15", edgecolor="black", facecolor="white"))
 plt.xlabel("Data zamknięcia", loc="right")
